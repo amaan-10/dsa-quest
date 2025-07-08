@@ -195,7 +195,7 @@ export default function HomePage() {
                 difficulty="Novice"
                 description="Master the fundamental arrays through the wisdom of ancient Indian mathematics and organization."
                 concepts={["Array Traversal", "Searching", "Basic Sorting"]}
-                imagePath="/placeholder.svg?height=200&width=400"
+                imagePath="/images/arrays-of-ashoka.jpeg"
               />
               <LevelCard
                 title="Linked Lists of Chandragupta"
@@ -206,28 +206,28 @@ export default function HomePage() {
                   "Doubly Linked Lists",
                   "List Operations",
                 ]}
-                imagePath="/placeholder.svg?height=200&width=400"
+                imagePath="/images/linked-lists-of-chandragupta.jpeg"
               />
               <LevelCard
                 title="Tree of Bodhi"
                 difficulty="Adept"
                 description="Climb the sacred tree of enlightenment, mastering hierarchical wisdom and tree traversals."
                 concepts={["Binary Trees", "BST", "Tree Traversal"]}
-                imagePath="/placeholder.svg?height=200&width=400"
+                imagePath="/images/tree-of-bodhi.jpeg"
               />
               <LevelCard
-                title="Graphs of Pataliputra"
+                title="Trade Routes of Silk Road"
                 difficulty="Sage"
                 description="Explore the vast network of ancient trade routes, solving complex pathfinding challenges."
                 concepts={["Graph Representation", "DFS/BFS", "Shortest Path"]}
-                imagePath="/placeholder.svg?height=200&width=400"
+                imagePath="/images/trade-routes-of-silk-road.jpeg"
               />
               <LevelCard
                 title="Dynamic Programming Darbar"
                 difficulty="Master"
                 description="Enter the royal court of optimization, where each decision shapes the kingdom's future."
                 concepts={["Memoization", "Tabulation", "Optimization"]}
-                imagePath="/placeholder.svg?height=200&width=400"
+                imagePath="/images/dynamic-programming-darbar.jpeg"
               />
               <LevelCard
                 title="Algorithm Akharas"
@@ -238,7 +238,7 @@ export default function HomePage() {
                   "Optimization",
                   "Problem Solving",
                 ]}
-                imagePath="/placeholder.svg?height=200&width=400"
+                imagePath="/images/algorithm-akharas.jpeg"
               />
             </div>
 

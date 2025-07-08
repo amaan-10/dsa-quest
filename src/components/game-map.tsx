@@ -14,29 +14,33 @@ import {
   Crown,
   Star,
   Scroll,
+  Mountain,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import Image from "next/image";
 
 interface MapNode {
   id: string;
   name: string;
   x: number;
   y: number;
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
+  image?: string;
   status: "locked" | "available" | "completed";
   description: string;
   ancientName: string;
+  terrain: "mountain" | "forest" | "desert" | "river" | "palace" | "temple";
 }
 
 interface MapConnection {
   from: string;
   to: string;
+  type: "road" | "river" | "trade";
 }
 
 export function GameMap() {
@@ -47,125 +51,298 @@ export function GameMap() {
       id: "arrays",
       name: "Arrays of Ashoka",
       ancientName: "अशोक सरणी",
-      x: 20,
-      y: 50,
-      icon: <Boxes className="h-6 w-6" />,
+      x: 12,
+      y: 38,
+      icon: <Boxes className="h-4 w-4" />,
+      image: "/images/array-map.png",
       status: "completed",
       description:
-        "Master the imperial arrays through the wisdom of ancient organization and mathematics.",
+        "The imperial arrays of Emperor Ashoka's administrative system",
+      terrain: "palace",
     },
     {
       id: "linkedlists",
       name: "Linked Lists of Chandragupta",
       ancientName: "चन्द्रगुप्त श्रृंखला",
-      x: 35,
-      y: 30,
-      icon: <LinkIcon className="h-6 w-6" />,
+      x: 30,
+      y: 20,
+      icon: <LinkIcon className="h-4 w-4" />,
+      image: "/images/linked-list-map.png",
       status: "available",
-      description:
-        "Navigate the strategic chains of knowledge, following the wisdom of ancient rulers.",
+      description: "Strategic chains connecting the Mauryan Empire",
+      terrain: "mountain",
     },
     {
       id: "trees",
       name: "Tree of Bodhi",
       ancientName: "बोधि वृक्ष",
       x: 50,
-      y: 20,
-      icon: <GitBranch className="h-6 w-6" />,
-      status: "locked",
-      description:
-        "Climb the sacred tree of enlightenment, mastering hierarchical wisdom.",
+      y: 10,
+      icon: <GitBranch className="h-4 w-4" />,
+      image: "/images/tree-map.png",
+      status: "available",
+      description: "The sacred tree of enlightenment in Bodh Gaya",
+      terrain: "temple",
     },
     {
       id: "hashing",
       name: "Hash Palace of Pataliputra",
       ancientName: "पाटलिपुत्र हाश महल",
-      x: 65,
-      y: 30,
-      icon: <Hash className="h-6 w-6" />,
+      x: 67,
+      y: 15,
+      icon: <Hash className="h-4 w-4" />,
+      image: "/images/hash-map.png",
       status: "locked",
-      description:
-        "Explore the royal palace of efficient data retrieval and ancient indexing.",
+      description: "The great palace complex of ancient Pataliputra",
+      terrain: "palace",
     },
     {
       id: "sorting",
       name: "Sorting Ashram",
       ancientName: "क्रमबद्ध आश्रम",
-      x: 35,
-      y: 70,
-      icon: <BarChart className="h-6 w-6" />,
+      x: 30,
+      y: 65,
+      icon: <BarChart className="h-4 w-4" />,
+      image: "/images/sorting-map.png",
       status: "available",
-      description:
-        "Learn the meditative art of ordering in this peaceful sanctuary.",
+      description: "Peaceful hermitage in the Western Ghats",
+      terrain: "forest",
     },
     {
       id: "graphs",
-      name: "Graphs of Ancient Trade Routes",
-      ancientName: "प्राचीन व्यापार मार्ग",
-      x: 80,
-      y: 50,
-      icon: <Network className="h-6 w-6" />,
+      name: "Trade Routes of Silk Road",
+      ancientName: "रेशम मार्ग",
+      x: 85,
+      y: 28,
+      icon: <Network className="h-4 w-4" />,
+      image: "/images/graph-map.png",
       status: "locked",
-      description:
-        "Explore the vast network of ancient trade routes and royal connections.",
+      description: "Ancient trade networks connecting East and West",
+      terrain: "desert",
+    },
+    {
+      id: "stacks-queues",
+      name: "Scroll Stambh",
+      ancientName: "सूची स्तंभ",
+      x: 50,
+      y: 45,
+      icon: <Scroll className="h-4 w-4" />,
+      image: "/images/stacks-queues-map.png",
+      status: "available",
+      description: "Sacred pillar of order where scrolls reveal secrets",
+      terrain: "temple",
     },
     {
       id: "dp",
       name: "Dynamic Programming Darbar",
-      ancientName: "गतिशील प्रोग्रामिंग दरबार",
-      x: 65,
+      ancientName: "गतिशील दरबार",
+      x: 60,
       y: 70,
-      icon: <Zap className="h-6 w-6" />,
+      icon: <Zap className="h-4 w-4" />,
+      image: "/images/dp-map.png",
       status: "locked",
-      description:
-        "Enter the royal court where each decision shapes the kingdom's future.",
+      description: "Royal court of the Gupta Dynasty",
+      terrain: "palace",
     },
     {
       id: "advanced",
       name: "Algorithm Akharas",
       ancientName: "एल्गोरिदम अखाड़ा",
       x: 80,
-      y: 80,
-      icon: <Crown className="h-6 w-6" />,
+      y: 60,
+      icon: <Crown className="h-4 w-4" />,
+      image: "/images/algorithm-map.png",
       status: "locked",
-      description:
-        "Train in the ultimate arena where algorithmic warriors test their supreme knowledge.",
+      description: "Training grounds of ancient mathematical warriors",
+      terrain: "mountain",
     },
   ];
 
   const connections: MapConnection[] = [
-    { from: "arrays", to: "linkedlists" },
-    { from: "arrays", to: "sorting" },
-    { from: "linkedlists", to: "trees" },
-    { from: "trees", to: "hashing" },
-    { from: "hashing", to: "graphs" },
-    { from: "sorting", to: "dp" },
-    { from: "dp", to: "advanced" },
-    { from: "graphs", to: "advanced" },
+    { from: "arrays", to: "linkedlists", type: "road" },
+    { from: "arrays", to: "sorting", type: "river" },
+    { from: "linkedlists", to: "trees", type: "road" },
+    { from: "trees", to: "hashing", type: "trade" },
+    { from: "hashing", to: "graphs", type: "trade" },
+    { from: "sorting", to: "dp", type: "river" },
+    { from: "sorting", to: "stacks-queues", type: "road" },
+    { from: "stacks-queues", to: "dp", type: "road" },
+    { from: "dp", to: "graphs", type: "trade" },
+    { from: "dp", to: "advanced", type: "road" },
+    { from: "graphs", to: "advanced", type: "trade" },
   ];
+
+  const getTerrainSymbol = (terrain: MapNode["terrain"]) => {
+    switch (terrain) {
+      case "mountain":
+        return "⛰️";
+      case "forest":
+        return "🌲";
+      case "desert":
+        return "🏜️";
+      case "river":
+        return "🌊";
+      case "palace":
+        return "🏛️";
+      case "temple":
+        return "🕉️";
+    }
+  };
 
   const getStatusColor = (status: MapNode["status"]) => {
     switch (status) {
       case "completed":
-        return "from-green-500 to-green-600";
+        return "#8B4513";
       case "available":
-        return "from-copper-500 to-copper-600";
+        return "#CD853F";
       case "locked":
-        return "from-gray-400 to-gray-500";
+        return "#A0522D";
+    }
+  };
+
+  const getConnectionStyle = (type: MapConnection["type"]) => {
+    switch (type) {
+      case "road":
+        return { stroke: "#8B4513", strokeWidth: 3, strokeDasharray: "" };
+      case "river":
+        return { stroke: "#4682B4", strokeWidth: 4, strokeDasharray: "2,2" };
+      case "trade":
+        return { stroke: "#DAA520", strokeWidth: 2, strokeDasharray: "5,3" };
     }
   };
 
   const getNodeById = (id: string) => nodes.find((node) => node.id === id);
 
   return (
-    <div className="relative w-full h-[600px] bg-gradient-to-br from-sandstone-50 to-sandstone-100 rounded-2xl overflow-hidden border-2 border-copper-200 shadow-inner">
-      {/* Decorative Background Pattern */}
-      <div className="absolute inset-0 bg-ancient-pattern opacity-40"></div>
+    <div className="relative w-full h-[700px] overflow-hidden">
+      {/* Parchment Background */}
+      <div
+        className="absolute inset-0 bg-gradient-to-br from-amber-50 via-yellow-50 to-amber-100"
+        style={{
+          backgroundImage: `
+            radial-gradient(circle at 20% 30%, rgba(139, 69, 19, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 70%, rgba(160, 82, 45, 0.08) 0%, transparent 50%),
+            radial-gradient(circle at 40% 80%, rgba(205, 133, 63, 0.06) 0%, transparent 50%),
+            linear-gradient(45deg, transparent 48%, rgba(139, 69, 19, 0.02) 49%, rgba(139, 69, 19, 0.02) 51%, transparent 52%),
+            linear-gradient(-45deg, transparent 48%, rgba(160, 82, 45, 0.02) 49%, rgba(160, 82, 45, 0.02) 51%, transparent 52%)
+          `,
+          backgroundSize:
+            "200px 200px, 300px 300px, 250px 250px, 20px 20px, 20px 20px",
+        }}
+      />
 
-      {/* Mountain/Temple Silhouettes */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-sandstone-300/30 to-transparent"></div>
-      <div className="absolute bottom-0 left-1/4 w-24 h-24 bg-sandstone-400/20 rounded-t-full"></div>
-      <div className="absolute bottom-0 right-1/3 w-32 h-20 bg-sandstone-400/20 rounded-t-full"></div>
+      {/* Aged Paper Texture */}
+      <div
+        className="absolute inset-0 opacity-30"
+        style={{
+          backgroundImage: `
+            repeating-linear-gradient(
+              0deg,
+              transparent,
+              transparent 2px,
+              rgba(139, 69, 19, 0.03) 2px,
+              rgba(139, 69, 19, 0.03) 4px
+            ),
+            repeating-linear-gradient(
+              90deg,
+              transparent,
+              transparent 2px,
+              rgba(160, 82, 45, 0.03) 2px,
+              rgba(160, 82, 45, 0.03) 4px
+            )
+          `,
+        }}
+      />
+
+      {/* Weathered Edges */}
+      <div
+        className="absolute inset-0 border-8 border-amber-800 opacity-60"
+        style={{
+          borderImage:
+            "url(\"data:image/svg+xml,%3csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='m0,0 l100,0 l100,100 l0,100 z' fill='none' stroke='%23654321' strokeWidth='8' strokeDasharray='5,3'/%3e%3c/svg%3e\") 8",
+        }}
+      />
+
+      {/* Decorative Corner Flourishes */}
+      <div
+        className="absolute top-4 left-4 w-16 h-16 border-l-4 border-t-4 border-amber-800 opacity-60"
+        style={{ borderImage: "linear-gradient(45deg, #8B4513, #CD853F) 1" }}
+      />
+      <div
+        className="absolute top-4 right-4 w-16 h-16 border-r-4 border-t-4 border-amber-800 opacity-60"
+        style={{ borderImage: "linear-gradient(-45deg, #8B4513, #CD853F) 1" }}
+      />
+      <div
+        className="absolute bottom-4 left-4 w-16 h-16 border-l-4 border-b-4 border-amber-800 opacity-60"
+        style={{ borderImage: "linear-gradient(-45deg, #8B4513, #CD853F) 1" }}
+      />
+      <div
+        className="absolute bottom-4 right-4 w-16 h-16 border-r-4 border-b-4 border-amber-800 opacity-60"
+        style={{ borderImage: "linear-gradient(45deg, #8B4513, #CD853F) 1" }}
+      />
+
+      {/* Compass Rose */}
+      <div className="absolute top-8 right-8 w-28 h-28 flex items-center justify-center">
+        <div className="relative">
+          <Image
+            src="/images/compass.png"
+            alt="compass"
+            width={500}
+            height={500}
+            className="h-20 w-20"
+          />
+        </div>
+      </div>
+
+      {/* Mountain Ranges */}
+      <div className="absolute top-16 left-1/4 flex space-x-1 opacity-40">
+        <Mountain className="h-8 w-8 text-amber-700" />
+        <Mountain className="h-10 w-10 text-amber-700" />
+        <Mountain className="h-6 w-6 text-amber-700" />
+      </div>
+      <div className="absolute bottom-20 right-1/4 flex space-x-1 opacity-40">
+        <Mountain className="h-6 w-6 text-amber-700" />
+        <Mountain className="h-12 w-12 text-amber-700" />
+        <Mountain className="h-8 w-8 text-amber-700" />
+      </div>
+
+      {/* Rivers */}
+      <svg className="absolute inset-0 w-full h-full opacity-30">
+        <path
+          d="M 0 400 Q 200 380 400 420 Q 600 460 800 440"
+          stroke="#4682B4"
+          strokeWidth="6"
+          fill="none"
+          strokeDasharray="3,2"
+        />
+        <path
+          d="M 100 100 Q 300 120 500 80 Q 700 40 900 60"
+          stroke="#4682B4"
+          strokeWidth="4"
+          fill="none"
+          strokeDasharray="2,1"
+        />
+      </svg>
+
+      {/* Ancient Map Grid */}
+      <svg className="absolute inset-0 w-full h-full opacity-10">
+        <defs>
+          <pattern
+            id="ancientGrid"
+            width="50"
+            height="50"
+            patternUnits="userSpaceOnUse"
+          >
+            <path
+              d="M 50 0 L 0 0 0 50"
+              fill="none"
+              stroke="#8B4513"
+              strokeWidth="1"
+            />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#ancientGrid)" />
+      </svg>
 
       {/* Connections between nodes */}
       <svg className="absolute inset-0 w-full h-full">
@@ -177,29 +354,25 @@ export function GameMap() {
 
           const isActive =
             activeNode === connection.from || activeNode === connection.to;
-          const isAvailable =
-            (fromNode.status === "completed" &&
-              toNode.status === "available") ||
-            (fromNode.status === "available" &&
-              toNode.status === "completed") ||
-            (fromNode.status === "completed" && toNode.status === "completed");
+          const style = getConnectionStyle(connection.type);
 
           return (
-            <motion.line
+            <motion.path
               key={`${connection.from}-${connection.to}`}
-              x1={`${fromNode.x}%`}
-              y1={`${fromNode.y}%`}
-              x2={`${toNode.x}%`}
-              y2={`${toNode.y}%`}
-              stroke={
-                isAvailable ? (isActive ? "#B8860B" : "#D4A574") : "#CBD5E1"
-              }
-              strokeWidth={isActive ? 4 : 3}
-              strokeDasharray={!isAvailable ? "8,8" : ""}
+              d={`M ${fromNode.x}% ${fromNode.y}% Q ${
+                (fromNode.x + toNode.x) / 2 + (Math.random() - 0.5) * 10
+              }% ${(fromNode.y + toNode.y) / 2 + (Math.random() - 0.5) * 10}% ${
+                toNode.x
+              }% ${toNode.y}%`}
+              stroke={style.stroke}
+              strokeWidth={isActive ? style.strokeWidth + 1 : style.strokeWidth}
+              strokeDasharray={style.strokeDasharray}
+              fill="none"
               strokeLinecap="round"
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 1.5, delay: index * 0.2 }}
+              opacity={0.8}
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 2, delay: index * 0.3 }}
             />
           );
         })}
@@ -208,104 +381,134 @@ export function GameMap() {
       {/* Nodes */}
       <div className="absolute inset-0">
         <TooltipProvider>
-          {nodes.map((node) => (
+          {nodes.map((node, index) => (
             <Tooltip key={node.id}>
               <TooltipTrigger asChild>
                 <motion.div
                   className="absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer"
                   style={{ left: `${node.x}%`, top: `${node.y}%` }}
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
+                  initial={{ scale: 0, opacity: 0, rotate: -180 }}
+                  animate={{ scale: 1, opacity: 1, rotate: 0 }}
                   transition={{
                     type: "spring",
-                    stiffness: 260,
-                    damping: 20,
-                    delay: 0.8 + Math.random() * 0.5,
+                    stiffness: 200,
+                    damping: 15,
+                    delay: 0 + index * 0.2,
                   }}
-                  whileHover={{ scale: 1.15 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: 1.2 }}
+                  whileTap={{ scale: 0.9 }}
                   onMouseEnter={() => setActiveNode(node.id)}
                   onMouseLeave={() => setActiveNode(null)}
                 >
                   <div className="relative">
-                    {/* Glow effect for active/available nodes */}
-                    {(node.status === "available" ||
-                      node.status === "completed") && (
-                      <div className="absolute inset-0 bg-gradient-to-br from-copper-400 to-copper-600 rounded-full blur-md opacity-30 animate-pulse"></div>
-                    )}
+                    {/* Ancient Map Marker */}
+                    <div className="relative">
+                      {/* Parchment Circle */}
+                      {node.status === "completed" && (
+                        <Image
+                          src="/images/flag.gif"
+                          alt="Completed"
+                          width={400}
+                          height={400}
+                          unoptimized
+                          className="absolute -top-20 left-2 w-28 h-28"
+                        />
+                      )}
+                      {node.status === "locked" && (
+                        <Image
+                          src="/images/locked.png"
+                          alt="Locked"
+                          width={400}
+                          height={400}
+                          className="absolute left-2 w-28 h-28 z-10"
+                        />
+                      )}
+                      {node.status === "available" && (
+                        <Image
+                          src="/images/available.png"
+                          alt="Available"
+                          width={400}
+                          height={400}
+                          className="absolute left-20 w-28 h-28 z-10"
+                        />
+                      )}
+                      <div className="w-32 h-32 relative overflow-hidden">
+                        {/* Icon and terrain symbol */}
+                        <div className="absolute inset-0 flex flex-col items-center justify-center">
+                          {node.image ? (
+                            <>
+                              <Image
+                                src={node.image}
+                                alt={node.name}
+                                width={1024}
+                                height={1024}
+                                className="w-28 h-28 object-contain mb-1"
+                              />
+                            </>
+                          ) : (
+                            <div className="text-amber-800 mb-1">
+                              {node.icon}
+                            </div>
+                          )}
+                        </div>
 
-                    {/* Main node */}
-                    <div
-                      className={`
-                        relative flex items-center justify-center 
-                        w-20 h-20 rounded-full 
-                        ${
-                          node.status === "locked"
-                            ? "bg-gradient-to-br from-gray-300 to-gray-400 text-gray-600"
-                            : "bg-gradient-to-br from-white to-sandstone-100 text-copper-700 shadow-lg"
-                        }
-                        border-4 
-                        ${
-                          activeNode === node.id
-                            ? "border-copper-500"
-                            : "border-copper-300"
-                        }
-                        transition-all duration-300
-                      `}
-                    >
-                      {node.icon}
-
-                      {/* Status indicator */}
-                      <div
-                        className={`absolute -bottom-2 -right-2 w-6 h-6 rounded-full bg-gradient-to-br ${getStatusColor(
-                          node.status
-                        )} border-2 border-white shadow-sm`}
-                      >
-                        {node.status === "completed" && (
-                          <Star className="h-3 w-3 text-white m-auto mt-0.5" />
-                        )}
-                        {node.status === "available" && (
-                          <Scroll className="h-3 w-3 text-white m-auto mt-0.5" />
-                        )}
+                        {/* Status indicator */}
+                        <div
+                          className="absolute -top-1 -right-1 w-5 h-5 rounded-full border-2 border-amber-100 flex items-center justify-center"
+                          style={{
+                            backgroundColor: getStatusColor(node.status),
+                          }}
+                        >
+                          {node.status === "completed" && (
+                            <Star className="h-2.5 w-2.5 text-white" />
+                          )}
+                          {node.status === "available" && (
+                            <Scroll className="h-2.5 w-2.5 text-white" />
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Node Label */}
-                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-4 text-center">
-                    <div
-                      className={`
-                      font-serif text-sm font-semibold whitespace-nowrap
-                      ${
-                        node.status === "locked"
-                          ? "text-gray-500"
-                          : "text-foreground"
-                      }
-                    `}
-                    >
-                      {node.name}
-                    </div>
-                    <div className="text-xs text-copper-600 font-sans">
-                      {node.ancientName}
+                    {/* Ancient-style label */}
+                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 text-center">
+                      <div
+                        className="bg-amber-50 border border-amber-600 rounded px-2 py-1 shadow-sm"
+                        style={{
+                          backgroundImage:
+                            "linear-gradient(45deg, rgba(139, 69, 19, 0.05) 25%, transparent 25%, transparent 75%, rgba(139, 69, 19, 0.05) 75%)",
+                          backgroundSize: "4px 4px",
+                        }}
+                      >
+                        <div className="font-serif text-xs font-bold text-amber-900 whitespace-nowrap">
+                          {node.name}
+                        </div>
+                        <div className="text-xs text-amber-700 font-sans">
+                          {node.ancientName}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </motion.div>
               </TooltipTrigger>
               <TooltipContent
                 side="top"
-                className="max-w-xs bg-white border-copper-200 shadow-xl"
+                className="max-w-xs bg-amber-50 border-amber-600 shadow-xl"
+                style={{
+                  backgroundImage:
+                    "radial-gradient(circle at 20% 20%, rgba(139, 69, 19, 0.1) 0%, transparent 50%)",
+                }}
               >
                 <div className="space-y-2">
-                  <div className="font-serif font-bold text-copper-700">
-                    {node.name}
+                  <div className="font-serif font-bold text-amber-900 flex items-center gap-2">
+                    {getTerrainSymbol(node.terrain)} {node.name}
                   </div>
-                  <div className="text-xs text-copper-600">
+                  <div className="text-xs text-amber-700 italic">
                     {node.ancientName}
                   </div>
-                  <div className="text-sm text-sandstone-700">
+                  <div className="text-sm text-amber-800">
                     {node.description}
                   </div>
-                  <div className="text-xs font-medium text-copper-600">
+                  <div className="text-xs font-medium text-amber-700 border-t border-amber-300 pt-1">
                     Status:{" "}
                     {node.status.charAt(0).toUpperCase() + node.status.slice(1)}
                   </div>
@@ -316,36 +519,106 @@ export function GameMap() {
         </TooltipProvider>
       </div>
 
-      {/* Map Legend */}
-      <div className="absolute bottom-6 left-6 bg-white/90 backdrop-blur-sm rounded-lg p-4 border border-copper-200 shadow-lg">
-        <div className="text-sm font-serif font-semibold text-copper-700 mb-2">
-          Legend
-        </div>
-        <div className="space-y-1 text-xs">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-gradient-to-br from-green-500 to-green-600"></div>
-            <span>Mastered</span>
+      {/* Ancient Map Title Cartouche */}
+      <div className="absolute top-8 left-8">
+        <div
+          className="bg-amber-50 border-2 border-amber-800 rounded-lg p-4 shadow-lg max-w-xs"
+          style={{
+            backgroundImage: `
+              linear-gradient(45deg, rgba(139, 69, 19, 0.05) 25%, transparent 25%, transparent 75%, rgba(139, 69, 19, 0.05) 75%),
+              radial-gradient(circle at 20% 20%, rgba(205, 133, 63, 0.1) 0%, transparent 50%)
+            `,
+            backgroundSize: "8px 8px, 100px 100px",
+          }}
+        >
+          <div className="font-serif text-lg font-bold text-amber-900 mb-1">
+            RannNeeti Map
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-gradient-to-br from-copper-500 to-copper-600"></div>
-            <span>Available</span>
+          <div className="text-sm text-amber-800 italic mb-2">
+            एल्गोरिदम साम्राज्य का मानचित्र
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-gradient-to-br from-gray-400 to-gray-500"></div>
-            <span>Locked</span>
+          <div className="text-xs text-amber-700">
+            Ancient Kingdoms of Data Structures & Algorithms
           </div>
         </div>
       </div>
 
-      {/* Action Button */}
-      <div className="absolute bottom-6 right-6">
-        <Button
-          variant="outline"
-          size="sm"
-          className="border-copper-300 text-copper-700 hover:bg-copper-50 hover:border-copper-500 transition-all duration-300 bg-white/90 backdrop-blur-sm"
+      {/* Legend Scroll */}
+      <div className="absolute bottom-8 left-8">
+        <div
+          className="bg-amber-50 border-2 border-amber-800 rounded-lg p-3 shadow-lg"
+          style={{
+            backgroundImage:
+              "linear-gradient(45deg, rgba(139, 69, 19, 0.03) 25%, transparent 25%, transparent 75%, rgba(139, 69, 19, 0.03) 75%)",
+            backgroundSize: "6px 6px",
+          }}
         >
-          Explore Full Map
-        </Button>
+          <div className="font-serif text-sm font-bold text-amber-900 mb-2 flex items-center gap-2">
+            <Scroll className="h-4 w-4" />
+            Legend
+          </div>
+          <div className="space-y-1 text-xs">
+            <div className="flex items-center gap-2">
+              <div
+                className="w-3 h-3 rounded-full"
+                style={{ backgroundColor: "#8B4513" }}
+              ></div>
+              <span className="text-amber-800">Mastered Territory</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div
+                className="w-3 h-3 rounded-full"
+                style={{ backgroundColor: "#CD853F" }}
+              ></div>
+              <span className="text-amber-800">Available Path</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div
+                className="w-3 h-3 rounded-full"
+                style={{ backgroundColor: "#A0522D" }}
+              ></div>
+              <span className="text-amber-800">Locked Region</span>
+            </div>
+            <div className="border-t border-amber-300 pt-1 mt-2">
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-0.5 bg-amber-800"></div>
+                <span className="text-amber-700">Ancient Roads</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div
+                  className="w-4 h-0.5 bg-blue-600"
+                  style={{ borderTop: "2px dashed" }}
+                ></div>
+                <span className="text-amber-700">Sacred Rivers</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div
+                  className="w-4 h-0.5 bg-yellow-600"
+                  style={{ borderTop: "1px dotted" }}
+                ></div>
+                <span className="text-amber-700">Trade Routes</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Scale Reference */}
+      <div className="absolute bottom-8 right-8">
+        <div
+          className="bg-amber-50 border border-amber-600 rounded px-3 py-2 shadow-md"
+          style={{
+            backgroundImage:
+              "linear-gradient(90deg, rgba(139, 69, 19, 0.05) 50%, transparent 50%)",
+            backgroundSize: "4px 4px",
+          }}
+        >
+          <div className="text-xs font-serif text-amber-900 mb-1">Scale</div>
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-0.5 bg-amber-800"></div>
+            <span className="text-xs text-amber-700">100 Yojanas</span>
+          </div>
+        </div>
       </div>
     </div>
   );

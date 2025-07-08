@@ -35,7 +35,7 @@ export function GameHero() {
   }, []);
 
   return (
-    <section className="relative py-12 lg:py-20 overflow-hidden bg-gradient-to-b from-background via-sandstone-50 to-background">
+    <section className="relative py-10 overflow-hidden bg-gradient-to-b from-background via-sandstone-50 to-background">
       {/* Decorative Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-1/4 left-1/6 w-96 h-96 bg-gradient-to-br from-copper-400/20 to-copper-600/20 rounded-full blur-3xl animate-float"></div>
@@ -153,7 +153,7 @@ export function GameHero() {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="border-2 border-copper-300 text-copper-700 hover:bg-copper-50 hover:border-copper-500 transition-all duration-300 px-10 py-6 text-lg font-medium rounded-xl backdrop-blur-sm bg-transparent"
+                  className="border-2 border-copper-300 text-copper-700 hover:text-copper-600 hover:bg-copper-50 hover:border-copper-500 transition-all duration-300 px-10 py-6 text-lg font-medium rounded-xl backdrop-blur-sm bg-transparent"
                 >
                   <Play className="mr-3 h-6 w-6" />
                   Explore Demo

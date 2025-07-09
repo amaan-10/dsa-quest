@@ -25,7 +25,11 @@ interface BossBattleProps {
   params: { slug: string };
 }
 
-export default function BossBattlePage({ params }: BossBattleProps) {
+export default function BossBattlePage({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const { toast } = useToast();
   const [gameState, setGameState] = useState<
     "intro" | "playing" | "success" | "failure"

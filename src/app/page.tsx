@@ -22,7 +22,7 @@ export default function HomePage() {
     <div className="flex flex-col min-h-screen bg-ancient-pattern">
       {/* Header with ancient-inspired design */}
       <header className="sticky top-0 z-50 w-full border-b border-copper-200 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-        <div className="container flex h-20 items-center justify-between">
+        <div className="px-4 md:px-8 flex h-20 items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group">
             <Image
               src={Logo}
@@ -99,7 +99,7 @@ export default function HomePage() {
           className="py-24 bg-gradient-to-b from-sandstone-50 to-background relative overflow-hidden"
         >
           <div className="absolute inset-0 bg-scroll-pattern"></div>
-          <div className="container relative">
+          <div className="px-4 md:px-8 relative">
             <div className="text-center mb-16">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-copper-100 text-copper-700 text-sm font-medium mb-4">
                 <Sparkles className="h-4 w-4" />
@@ -155,7 +155,7 @@ export default function HomePage() {
           id="map"
           className="py-24 bg-gradient-to-b from-background to-sandstone-50"
         >
-          <div className="container">
+          <div className="px-4 md:px-8">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-serif font-bold text-foreground mb-4">
                 Your Sacred <span className="text-copper-600">Journey</span>
@@ -177,7 +177,7 @@ export default function HomePage() {
           id="levels"
           className="py-24 bg-gradient-to-b from-sandstone-50 to-background"
         >
-          <div className="container">
+          <div className="px-4 md:px-8">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-serif font-bold text-foreground mb-4">
                 Sacred <span className="text-copper-600">Challenges</span>
@@ -260,7 +260,7 @@ export default function HomePage() {
           id="leaderboard"
           className="py-24 bg-gradient-to-b from-background to-sandstone-50"
         >
-          <div className="container">
+          <div className="px-4 md:px-8">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-serif font-bold text-foreground mb-4">
                 Hall of <span className="text-copper-600">Legends</span>
@@ -383,7 +383,7 @@ export default function HomePage() {
         {/* CTA Section */}
         <section className="py-24 bg-gradient-to-r from-copper-500 via-copper-600 to-copper-700 text-white relative overflow-hidden">
           <div className="absolute inset-0 bg-ancient-pattern opacity-20"></div>
-          <div className="container text-center relative">
+          <div className="px-4 md:px-8 text-center relative">
             <div className="max-w-3xl mx-auto">
               <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6">
                 Ready to Begin Your{" "}
@@ -419,7 +419,7 @@ export default function HomePage() {
 
       {/* Footer with Ancient Design */}
       <footer className="border-t border-copper-200 py-12 bg-sandstone-50">
-        <div className="container">
+        <div className="px-4 md:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center gap-3 mb-6 md:mb-0">
               <Image
@@ -476,7 +476,9 @@ export default function HomePage() {
               <div>
                 © {new Date().getFullYear()} RannNeeti. All rights reserved.
               </div>
-              <div className="text-xs text-copper-600 mt-1">सत्यमेव जयते</div>
+              <div className="text-xs text-copper-600 mt-1">
+                ज्ञानम् पारम् बलम्
+              </div>
             </div>
           </div>
         </div>

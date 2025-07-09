@@ -52,9 +52,9 @@ export function GameHero() {
       {/* Ancient Pattern Overlay */}
       <div className="absolute inset-0 bg-ancient-pattern opacity-30"></div>
 
-      <div className="container relative">
+      <div className="px-4 md:px-8 relative">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center space-y-8">
+          <div className="text-center space-y-5">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -62,8 +62,8 @@ export function GameHero() {
               className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-copper-100 to-copper-200 border border-copper-300 shadow-lg"
             >
               <div className="flex items-center gap-2">
-                <Construction className="h-5 w-5 text-copper-600" />
-                <span className="text-copper-700 font-serif text-sm font-medium">
+                <Construction className="h-4 w-4 text-copper-600" />
+                <span className="text-copper-700 font-serif text-xs font-medium">
                   Work in Progress
                 </span>
               </div>

@@ -18,11 +18,7 @@ import {
   Boxes,
 } from "lucide-react";
 
-export default function LevelDetailPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default function LevelDetailPage() {
   // This would normally be fetched from a database based on the slug
   const level = {
     title: "Array Valley",

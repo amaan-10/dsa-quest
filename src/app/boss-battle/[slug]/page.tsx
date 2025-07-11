@@ -20,13 +20,8 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
-import { type FC } from "react";
 
-interface BossBattlePageProps {
-  params: { slug: string };
-}
-
-const BossBattlePage: FC<BossBattlePageProps> = ({ params }) => {
+export default function BossBattlePage() {
   const { toast } = useToast();
   const [gameState, setGameState] = useState<
     "intro" | "playing" | "success" | "failure"
@@ -812,6 +807,4 @@ function reverse(arr, start, end) {
       </footer>
     </div>
   );
-};
-
-export default BossBattlePage;
+}

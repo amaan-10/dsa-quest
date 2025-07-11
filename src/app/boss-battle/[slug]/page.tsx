@@ -20,16 +20,13 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
+import { type FC } from "react";
 
-interface BossBattleProps {
+interface BossBattlePageProps {
   params: { slug: string };
 }
 
-export default function BossBattlePage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+const BossBattlePage: FC<BossBattlePageProps> = ({ params }) => {
   const { toast } = useToast();
   const [gameState, setGameState] = useState<
     "intro" | "playing" | "success" | "failure"
@@ -37,7 +34,7 @@ export default function BossBattlePage({
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [playerHealth, setPlayerHealth] = useState(100);
   const [bossHealth, setBossHealth] = useState(100);
-  const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(300);
   const [answer, setAnswer] = useState("");
   const [score, setScore] = useState(0);
   const [message, setMessage] = useState("");
@@ -815,4 +812,6 @@ function reverse(arr, start, end) {
       </footer>
     </div>
   );
-}
+};
+
+export default BossBattlePage;

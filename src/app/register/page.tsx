@@ -16,16 +16,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
-import {
-  Boxes,
-  Mail,
-  Lock,
-  User,
-  Github,
-  Chrome,
-  Eye,
-  EyeOff,
-} from "lucide-react";
+import { Mail, Lock, User, Github, Chrome, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function RegisterPage() {
@@ -89,40 +80,6 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-            <Boxes className="h-6 w-6 text-primary" />
-            <span>RannNeeti</span>
-          </Link>
-          <nav className="hidden md:flex gap-6">
-            <Link
-              href="/"
-              className="text-sm font-medium hover:text-primary transition-colors"
-            >
-              Home
-            </Link>
-            <Link
-              href="/levels"
-              className="text-sm font-medium hover:text-primary transition-colors"
-            >
-              Levels
-            </Link>
-            <Link
-              href="/about"
-              className="text-sm font-medium hover:text-primary transition-colors"
-            >
-              About
-            </Link>
-          </nav>
-          <div className="flex items-center gap-4">
-            <Link href="/login">
-              <Button variant="outline">Sign In</Button>
-            </Link>
-          </div>
-        </div>
-      </header>
-
       <main className="flex-1 flex items-center justify-center p-4">
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
@@ -297,20 +254,6 @@ export default function RegisterPage() {
           </CardContent>
         </Card>
       </main>
-
-      <footer className="border-t py-6 bg-muted/30">
-        <div className="container">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex items-center gap-2 font-bold text-xl mb-4 md:mb-0">
-              <Boxes className="h-6 w-6 text-primary" />
-              <span>RannNeeti</span>
-            </div>
-            <div className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} RannNeeti. All rights reserved.
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

@@ -14,82 +14,9 @@ import {
   Sparkles,
 } from "lucide-react";
 
-import Logo from "../../public/images/logo.png";
-import Image from "next/image";
-
 export default function HomePage() {
   return (
     <div className="flex flex-col min-h-screen bg-ancient-pattern">
-      {/* Header with ancient-inspired design */}
-      <header className="sticky top-0 z-50 w-full border-b border-copper-200 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-        <div className="px-4 md:px-8 flex h-20 items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group">
-            <Image
-              src={Logo}
-              alt="RannNeeti Logo"
-              width="50"
-              height="50"
-              className="h-12 w-12 text-wte"
-            />
-            <div className="flex flex-col">
-              <span className="font-serif text-2xl font-bold text-foreground">
-                RannNeeti
-              </span>
-              <span className="text-xs text-copper-600 font-sans tracking-wider">
-                ज्ञानम् पारम् बलम्
-              </span>
-            </div>
-          </Link>
-
-          <nav className="hidden md:flex gap-8">
-            <Link
-              href="#features"
-              className="text-sm font-medium text-sandstone-700 hover:text-copper-600 transition-colors duration-300 relative group"
-            >
-              Features
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-copper-500 transition-all duration-300 group-hover:w-full"></span>
-            </Link>
-            <Link
-              href="#map"
-              className="text-sm font-medium text-sandstone-700 hover:text-copper-600 transition-colors duration-300 relative group"
-            >
-              Journey Map
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-copper-500 transition-all duration-300 group-hover:w-full"></span>
-            </Link>
-            <Link
-              href="#levels"
-              className="text-sm font-medium text-sandstone-700 hover:text-copper-600 transition-colors duration-300 relative group"
-            >
-              Levels
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-copper-500 transition-all duration-300 group-hover:w-full"></span>
-            </Link>
-            <Link
-              href="#leaderboard"
-              className="text-sm font-medium text-sandstone-700 hover:text-copper-600 transition-colors duration-300 relative group"
-            >
-              Leaderboard
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-copper-500 transition-all duration-300 group-hover:w-full"></span>
-            </Link>
-          </nav>
-
-          <div className="flex items-center gap-4">
-            <Link href="/login">
-              <Button
-                variant="outline"
-                className="border-copper-300 text-copper-700 hover:bg-copper-50 hover:border-copper-500 transition-all duration-300 bg-transparent"
-              >
-                Login
-              </Button>
-            </Link>
-            <Link href="/register">
-              <Button className="bg-gradient-to-r from-copper-500 to-copper-700 hover:from-copper-600 hover:to-copper-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:animate-glow">
-                Begin Quest
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </header>
-
       <main className="flex-1">
         <GameHero />
 
@@ -371,7 +298,7 @@ export default function HomePage() {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="border-copper-300 text-copper-700 hover:bg-copper-50 hover:border-copper-500 transition-all duration-300 px-8 py-6 text-lg bg-transparent"
+                  className="border-copper-300 text-copper-700 hover:bg-copper-50 hover:border-copper-500 hover:text-primary transition-all duration-300 px-8 py-6 text-lg bg-transparent"
                 >
                   View Full Leaderboard
                 </Button>
@@ -416,73 +343,6 @@ export default function HomePage() {
           </div>
         </section>
       </main>
-
-      {/* Footer with Ancient Design */}
-      <footer className="border-t border-copper-200 py-12 bg-sandstone-50">
-        <div className="px-4 md:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex items-center gap-3 mb-6 md:mb-0">
-              <Image
-                src={Logo}
-                alt="RannNeeti Logo"
-                width="50"
-                height="50"
-                className="h-12 w-12 text-wte"
-              />
-              <div className="flex flex-col">
-                <span className="font-serif text-xl font-bold text-foreground">
-                  RannNeeti
-                </span>
-                <span className="text-xs text-copper-600 font-sans">
-                  Ancient Wisdom, Modern Learning
-                </span>
-              </div>
-            </div>
-
-            <nav className="flex gap-8 mb-6 md:mb-0">
-              <Link
-                href="/about"
-                className="text-sm text-sandstone-700 hover:text-copper-600 transition-colors"
-              >
-                About
-              </Link>
-              <Link
-                href="/blog"
-                className="text-sm text-sandstone-700 hover:text-copper-600 transition-colors"
-              >
-                Chronicles
-              </Link>
-              <Link
-                href="/contact"
-                className="text-sm text-sandstone-700 hover:text-copper-600 transition-colors"
-              >
-                Contact
-              </Link>
-              <Link
-                href="/privacy"
-                className="text-sm text-sandstone-700 hover:text-copper-600 transition-colors"
-              >
-                Privacy
-              </Link>
-              <Link
-                href="/terms"
-                className="text-sm text-sandstone-700 hover:text-copper-600 transition-colors"
-              >
-                Terms
-              </Link>
-            </nav>
-
-            <div className="text-sm text-sandstone-600 text-center">
-              <div>
-                © {new Date().getFullYear()} RannNeeti. All rights reserved.
-              </div>
-              <div className="text-xs text-copper-600 mt-1">
-                ज्ञानम् पारम् बलम्
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

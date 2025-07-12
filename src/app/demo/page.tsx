@@ -10,56 +10,13 @@ import { TreeVisualizer } from "@/components/game-engine/tree-visualizer";
 import { GraphVisualizer } from "@/components/game-engine/graph-visualizer";
 import { HashTableVisualizer } from "@/components/game-engine/hash-table-visualizer";
 import { StackQueueVisualizer } from "@/components/game-engine/stack-queue-visualizer";
-import { Boxes, ArrowRight, Play } from "lucide-react";
+import { ArrowRight, Play } from "lucide-react";
 
 export default function DemoPage() {
   const [activeDemo, setActiveDemo] = useState("sorting");
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-            <Boxes className="h-6 w-6 text-primary" />
-            <span>RannNeeti</span>
-          </Link>
-          <nav className="hidden md:flex gap-6">
-            <Link
-              href="/"
-              className="text-sm font-medium hover:text-primary transition-colors"
-            >
-              Home
-            </Link>
-            <Link
-              href="/levels"
-              className="text-sm font-medium hover:text-primary transition-colors"
-            >
-              Levels
-            </Link>
-            <Link
-              href="/how-it-works"
-              className="text-sm font-medium hover:text-primary transition-colors"
-            >
-              How It Works
-            </Link>
-            <Link
-              href="/about"
-              className="text-sm font-medium hover:text-primary transition-colors"
-            >
-              About
-            </Link>
-          </nav>
-          <div className="flex items-center gap-4">
-            <Link href="/login">
-              <Button variant="outline">Login</Button>
-            </Link>
-            <Link href="/register">
-              <Button>Sign Up</Button>
-            </Link>
-          </div>
-        </div>
-      </header>
-
       <main className="flex-1 container py-12">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
@@ -204,52 +161,6 @@ export default function DemoPage() {
           </div>
         </div>
       </main>
-
-      <footer className="border-t py-8 bg-muted/30">
-        <div className="container">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex items-center gap-2 font-bold text-xl mb-4 md:mb-0">
-              <Boxes className="h-6 w-6 text-primary" />
-              <span>RannNeeti</span>
-            </div>
-            <nav className="flex gap-8 mb-4 md:mb-0">
-              <Link
-                href="/about"
-                className="text-sm hover:text-primary transition-colors"
-              >
-                About
-              </Link>
-              <Link
-                href="/blog"
-                className="text-sm hover:text-primary transition-colors"
-              >
-                Blog
-              </Link>
-              <Link
-                href="/contact"
-                className="text-sm hover:text-primary transition-colors"
-              >
-                Contact
-              </Link>
-              <Link
-                href="/privacy"
-                className="text-sm hover:text-primary transition-colors"
-              >
-                Privacy
-              </Link>
-              <Link
-                href="/terms"
-                className="text-sm hover:text-primary transition-colors"
-              >
-                Terms
-              </Link>
-            </nav>
-            <div className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} RannNeeti. All rights reserved.
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

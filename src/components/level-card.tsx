@@ -136,7 +136,7 @@ export function LevelCard({
           <Link href={`/level/${levelSlug}`} className="flex-1">
             <Button
               variant="outline"
-              className="w-full border-copper-300 text-copper-700 hover:bg-copper-50 hover:border-copper-500 transition-all duration-300 bg-transparent"
+              className="w-full border-copper-300 text-copper-700 hover:text-primary hover:bg-copper-50 hover:border-copper-500 transition-all duration-300 bg-transparent"
             >
               View Details
             </Button>

@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏹 RannNeeti – Conquer Code with Ancient Indian Wisdom
 
-## Getting Started
+**RannNeeti - DSA Quest** is a gamified web platform that transforms your Data Structures and Algorithms learning journey into a legendary adventure inspired by the rich tapestry of Ancient India. Travel through kingdoms of code, solve algorithmic conundrums, and rise through the ranks—from a humble Yodha (warrior) to a Maharathi (grandmaster).
 
-First, run the development server:
+## 🌟 Features
+
+- ⚔️ **Ancient Indian Themed Interface** – Each topic is visualized as a kingdom or battlefield from Indian history.
+- 📜 **Structured Learning Path** – Progress through curated DSA topics: Arrays, Linked Lists, Trees, Graphs, DP, and more.
+- 🎯 **Interactive Challenges** – Solve problems with real-time feedback and unlock badges inspired by Indian legends.
+- 🛡️ **Gamified Experience** – Earn XP, maintain coding streaks, and climb the leaderboard of great coders.
+- 🏛️ **The RannNeeti Map** – A visual roadmap of your progress, styled as a grand Indian war strategy scroll.
+
+## 📚 Tech Stack
+
+- **Frontend:** Next.js, TypeScript, Tailwind CSS, Framer Motion  
+- **Backend:** Node.js, MongoDB  
+- **Authentication:** OAuth 2.0 (based on implementation)  
+- **Animations & Visuals:** SVG, GSAP, custom illustrations inspired by Indian heritage  
+
+## 🔮 Concept Inspiration
+
+India’s glorious past is filled with strategy, mathematics, and philosophy—from Aryabhata’s equations to Chanakya’s tactics. **RannNeeti** bridges that ancient intellect with modern problem-solving by turning algorithm learning into an epic journey through time.
+
+## 🚀 Getting Started
+
+1. Clone the repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/your-username/dsa-quest.git
 ```
+2. Install dependencies
+  ```bash
+  npm install
+  ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Run the development server
+  ```bash
+  npm run dev
+  ```
+4. Open http://localhost:3000 in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🧠 Learn Like a Sage
+- Each section is themed after ancient Indian scholars and warriors. For example:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Aryabhata's Arena – Number Theory & Math-based DSA
 
-## Learn More
+- Chanakya’s Chamber – Greedy & DP strategies
 
-To learn more about Next.js, take a look at the following resources:
+- Ashoka’s Algorithms – Tree & Graph challenges
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Rani Lakshmi’s Labyrinth – Backtracking & Recursion quests
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 👑 Coming Soon
+- 📱 Mobile App version
 
-## Deploy on Vercel
+- 🧠 AI-Powered Hints inspired by Vedic logic
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- 🏹 PvP Coding Duels in the Arena
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- 🏆 State-wise & Clan-wise Leaderboards
+
+## 🙏 Acknowledgements
+Inspired by the spirit of Indian history and the brilliance of ancient scholars.
+
+## 📬 Feedback & Contributions
+Got an idea, feature request, or want to contribute? Open a pull request or contact us at amaanshaikh.gg@gmail.com.
+
+ *“- Code like a Kshatriya, think like a Rishi.”*

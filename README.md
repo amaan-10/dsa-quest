@@ -65,8 +65,4 @@ Inspired by the spirit of Indian history and the brilliance of ancient scholars.
 ## 📬 Feedback & Contributions
 Got an idea, feature request, or want to contribute? Open a pull request or contact us at amaanshaikh.gg@gmail.com.
 
-<<<<<<< HEAD
  *“- Code like a Kshatriya, think like a Rishi.”*
-=======
- *“- Code like a Kshatriya, think like a Rishi.”*
->>>>>>> 2356d3d3937cf6af1fb27903d7d41fbb07fb7e80

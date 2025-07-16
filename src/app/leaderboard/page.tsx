@@ -24,103 +24,103 @@ export default function LeaderboardPage() {
   const globalLeaderboard = [
     {
       rank: 1,
-      username: "AlgoMaster",
+      username: "Euclid", // Greece
       avatar: "/placeholder.svg?height=50&width=50",
       level: 42,
       challenges: 156,
       score: 9845,
       streak: 15,
-      country: "🇺🇸",
+      country: "🇬🇷",
     },
     {
       rank: 2,
-      username: "CodeNinja",
+      username: "Aryabhata", // India
       avatar: "/placeholder.svg?height=50&width=50",
       level: 39,
       challenges: 142,
       score: 9254,
       streak: 12,
-      country: "🇯🇵",
+      country: "🇮🇳",
     },
     {
       rank: 3,
-      username: "ByteWizard",
+      username: "Al-Khwarizmi", // Persia
       avatar: "/placeholder.svg?height=50&width=50",
       level: 37,
       challenges: 138,
       score: 8932,
       streak: 8,
-      country: "🇩🇪",
+      country: "🇮🇷",
     },
     {
       rank: 4,
-      username: "DataDragon",
+      username: "Hypatia", // Egypt
       avatar: "/placeholder.svg?height=50&width=50",
       level: 35,
       challenges: 129,
       score: 8567,
       streak: 6,
-      country: "🇨🇦",
+      country: "🇪🇬",
     },
     {
       rank: 5,
-      username: "SortingSpecialist",
+      username: "Srinivasa", // India
       avatar: "/placeholder.svg?height=50&width=50",
       level: 33,
       challenges: 124,
       score: 8123,
       streak: 10,
-      country: "🇬🇧",
+      country: "🇮🇳",
     },
     {
       rank: 6,
-      username: "TreeTraverser",
+      username: "AdaLovelace", // UK
       avatar: "/placeholder.svg?height=50&width=50",
       level: 31,
       challenges: 118,
       score: 7892,
       streak: 4,
-      country: "🇫🇷",
+      country: "🇬🇧",
     },
     {
       rank: 7,
-      username: "GraphGuru",
+      username: "LiuHui", // China
       avatar: "/placeholder.svg?height=50&width=50",
       level: 29,
       challenges: 112,
       score: 7654,
       streak: 7,
-      country: "🇮🇳",
+      country: "🇨🇳",
     },
     {
       rank: 8,
-      username: "HashHero",
+      username: "OmarKhayyam", // Persia
       avatar: "/placeholder.svg?height=50&width=50",
       level: 28,
       challenges: 108,
       score: 7321,
       streak: 3,
-      country: "🇧🇷",
+      country: "🇮🇷",
     },
     {
       rank: 9,
-      username: "DPDynamo",
+      username: "LeonhardEuler", // Switzerland
       avatar: "/placeholder.svg?height=50&width=50",
       level: 26,
       challenges: 102,
       score: 6987,
       streak: 9,
-      country: "🇰🇷",
+      country: "🇨🇭",
     },
     {
       rank: 10,
-      username: "StackSage",
+      username: "NielsBohr", // Denmark (Physicist, but often used in logical/math contexts)
       avatar: "/placeholder.svg?height=50&width=50",
       level: 25,
       challenges: 98,
       score: 6543,
       streak: 2,
-      country: "🇦🇺",
+      country: "🇩🇰",
     },
   ];
 

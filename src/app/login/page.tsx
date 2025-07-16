@@ -30,16 +30,15 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
+    toast({
+      title: "Login Successful!",
+      description: "Welcome back to RannNeeti!",
+      duration: 1250,
+    });
     // Simulate login process
     setTimeout(() => {
       setIsLoading(false);
-      toast({
-        title: "Login Successful!",
-        description: "Welcome back to RannNeeti!",
-      });
-      // In a real app, redirect to dashboard
-      window.location.href = "/levels";
+      window.location.href = "/";
     }, 1500);
   };
 

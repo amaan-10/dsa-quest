@@ -460,7 +460,7 @@ export default function LevelPlayPage() {
           | "Hard")
       : "Medium";
     const challengeProps = {
-      challengeId: `${level.slug}-${currentChallengeIndex}`,
+      challengeId: level.challenges[currentChallengeIndex].name,
       difficulty: challengeDifficulty,
       onComplete: handleChallengeComplete,
     };
@@ -1092,7 +1092,8 @@ export default function LevelPlayPage() {
                           Array Access
                         </h3>
                         <pre className="p-4 bg-muted rounded-md overflow-x-auto">
-                          <code className="text-sm">
+                          <code className="text-sm !font-[monospace]">
+                            {" "}
                             {`function accessElement(array, index) {
   if (index < 0 || index >= array.length) {
     return "Index out of bounds";
@@ -1108,7 +1109,7 @@ export default function LevelPlayPage() {
                           Array Search
                         </h3>
                         <pre className="p-4 bg-muted rounded-md overflow-x-auto">
-                          <code className="text-sm">
+                          <code className="text-sm !font-[monospace]">
                             {`function linearSearch(array, target) {
   for (let i = 0; i < array.length; i++) {
     if (array[i] === target) {

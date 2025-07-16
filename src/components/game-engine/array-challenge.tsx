@@ -16,6 +16,14 @@ interface ArrayChallengeProps {
   onComplete: (score: number, timeSpent: number) => void;
 }
 
+// Define the ChallengeConfig type
+type ChallengeConfig = {
+  arraySize: number;
+  operations: string[];
+  timeLimit: number;
+  lives: number;
+};
+
 export function ArrayChallenge({
   challengeId,
   difficulty,
@@ -28,81 +36,121 @@ export function ArrayChallenge({
   const [currentStep, setCurrentStep] = useState(0);
   const [score, setScore] = useState(0);
   const [lives, setLives] = useState(3);
-  const [timeLeft, setTimeLeft] = useState(120); // 2 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(120);
   const [array, setArray] = useState<number[]>([]);
   const [targetValue, setTargetValue] = useState<number | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [highlightedIndices, setHighlightedIndices] = useState<number[]>([]);
   const [message, setMessage] = useState("");
+  const [rotationSteps, setRotationSteps] = useState(0);
+  const [searchRange, setSearchRange] = useState<[number, number]>([0, 0]);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const startTimeRef = useRef<number>(0);
 
-  // Challenge configuration based on difficulty
-  const challengeConfig = {
-    Easy: {
-      arraySize: 8,
-      operations: ["find", "access", "insert"],
-      timeLimit: 120,
+  // Challenge configuration based on difficulty and challenge type
+  const challengeConfigs: Record<string, ChallengeConfig> = {
+    "Array Basics": {
+      arraySize: difficulty === "Easy" ? 8 : difficulty === "Medium" ? 12 : 16,
+      operations: ["access", "insert", "delete", "sort"],
+      timeLimit:
+        difficulty === "Easy" ? 120 : difficulty === "Medium" ? 180 : 240,
       lives: 3,
     },
-    Medium: {
-      arraySize: 12,
-      operations: ["find", "access", "insert", "delete", "sort"],
-      timeLimit: 180,
+    "Linear Search": {
+      arraySize: difficulty === "Easy" ? 8 : difficulty === "Medium" ? 12 : 16,
+      operations: ["find"],
+      timeLimit:
+        difficulty === "Easy" ? 120 : difficulty === "Medium" ? 180 : 240,
       lives: 3,
     },
-    Hard: {
-      arraySize: 16,
-      operations: [
-        "find",
-        "access",
-        "insert",
-        "delete",
-        "sort",
-        "reverse",
-        "rotate",
-      ],
-      timeLimit: 240,
+    "Binary Search": {
+      arraySize: difficulty === "Easy" ? 8 : difficulty === "Medium" ? 12 : 16,
+      operations: ["binary-search"],
+      timeLimit:
+        difficulty === "Easy" ? 180 : difficulty === "Medium" ? 240 : 300,
       lives: 3,
     },
-  }[difficulty];
+    "Array Rotation": {
+      arraySize: difficulty === "Easy" ? 8 : difficulty === "Medium" ? 10 : 12,
+      operations: ["rotate"],
+      timeLimit:
+        difficulty === "Easy" ? 150 : difficulty === "Medium" ? 210 : 270,
+      lives: 3,
+    },
+  };
 
-  // Challenge steps for this level
-  const challengeSteps = [
-    {
-      type: "find",
-      instruction: `Find the value ${targetValue} in the array and select its index.`,
-      validate: () =>
-        selectedIndex !== null && array[selectedIndex] === targetValue,
-    },
-    {
-      type: "access",
-      instruction: "Select the element at index 3.",
-      validate: () => selectedIndex === 3,
-    },
-    {
-      type: "sort",
-      instruction:
-        "Sort the array in ascending order by clicking the Sort button.",
-      validate: () => {
-        for (let i = 0; i < array.length - 1; i++) {
-          if (array[i] > array[i + 1]) return false;
-        }
-        return true;
-      },
-    },
-    {
-      type: "insert",
-      instruction: `Insert the value ${targetValue} at index 2 by clicking the Insert button.`,
-      validate: () => array[2] === targetValue,
-    },
-    {
-      type: "delete",
-      instruction:
-        "Delete the element at index 4 by clicking the Delete button.",
-      validate: () => true, // This will be validated in the delete operation
-    },
-  ];
+  // Then select the config
+  const challengeConfig =
+    challengeConfigs[challengeId] || challengeConfigs["Array Basics"];
+
+  // Generate challenge steps based on challenge type
+  const challengeSteps = () => {
+    switch (challengeId) {
+      case "Linear Search":
+        return [
+          {
+            type: "find",
+            instruction: `Find the value ${targetValue} in the array.`,
+            validate: (clickedIndex?: number) =>
+              clickedIndex !== null && array[clickedIndex || 0] === targetValue,
+          },
+        ];
+
+      case "Binary Search":
+        return [
+          {
+            type: "binary-search",
+            instruction: `Find ${targetValue} using binary search. Select midpoints.`,
+            validate: (clickedIndex?: number) =>
+              clickedIndex !== null && array[clickedIndex || 0] === targetValue,
+          },
+        ];
+
+      case "Array Rotation":
+        return [
+          {
+            type: "rotate",
+            instruction: `Rotate the array ${rotationSteps} steps to the ${
+              rotationSteps > 0 ? "right" : "left"
+            }.`,
+            validate: () => {
+              const rotated = rotateArray([...array], rotationSteps);
+              return arraysEqual(array, rotated);
+            },
+          },
+        ];
+
+      // Array Basics (default)
+      default:
+        return [
+          {
+            type: "access",
+            instruction: "Select the element at index 3.",
+            validate: (clickedIndex?: number) => clickedIndex === 3,
+          },
+          {
+            type: "insert",
+            instruction: `Insert ${targetValue} at index 2.`,
+            validate: () => array[2] === targetValue,
+          },
+          {
+            type: "delete",
+            instruction: "Delete the element at index 4.",
+            validate: () => true,
+          },
+          {
+            type: "sort",
+            instruction: "Sort the array in ascending order.",
+            validate: () => {
+              for (let i = 0; i < array.length - 1; i++) {
+                if (array[i] > array[i + 1]) return false;
+              }
+              return true;
+            },
+          },
+        ];
+    }
+  };
 
   // Initialize the game
   useEffect(() => {
@@ -121,14 +169,38 @@ export function ArrayChallenge({
 
   const initializeGame = () => {
     // Generate random array
-    const newArray = Array.from({ length: challengeConfig.arraySize }, () =>
-      Math.floor(Math.random() * 100)
-    );
+    let newArray: number[] = [];
+    const size = challengeConfig.arraySize;
+
+    if (challengeId === "Binary Search") {
+      // Sorted array for binary search
+      newArray = Array.from({ length: size }, () =>
+        Math.floor(Math.random() * 100)
+      );
+      newArray.sort((a, b) => a - b);
+    } else {
+      // Regular array for other challenges
+      newArray = Array.from({ length: size }, () =>
+        Math.floor(Math.random() * 100)
+      );
+    }
+
     setArray(newArray);
 
-    // Set a random target value from the array
+    // Set target value
     const randomIndex = Math.floor(Math.random() * newArray.length);
     setTargetValue(newArray[randomIndex]);
+
+    // Initialize rotation steps
+    if (challengeId === "Array Rotation") {
+      const steps = difficulty === "Easy" ? 2 : difficulty === "Medium" ? 3 : 4;
+      setRotationSteps(Math.random() > 0.5 ? steps : -steps);
+    }
+
+    // Initialize binary search range
+    if (challengeId === "Binary Search") {
+      setSearchRange([0, newArray.length - 1]);
+    }
 
     setLives(challengeConfig.lives);
     setTimeLeft(challengeConfig.timeLimit);
@@ -137,6 +209,24 @@ export function ArrayChallenge({
     setSelectedIndex(null);
     setHighlightedIndices([]);
     setMessage("");
+  };
+
+  // Helper function to rotate arrays
+  const rotateArray = (arr: number[], steps: number): number[] => {
+    if (arr.length === 0) return arr;
+    const k = Math.abs(steps) % arr.length;
+    if (steps > 0) {
+      // Rotate right
+      return [...arr.slice(arr.length - k), ...arr.slice(0, arr.length - k)];
+    } else {
+      // Rotate left
+      return [...arr.slice(k), ...arr.slice(0, k)];
+    }
+  };
+
+  // Helper to compare arrays
+  const arraysEqual = (a: number[], b: number[]): boolean => {
+    return a.length === b.length && a.every((val, i) => val === b[i]);
   };
 
   const startTimer = () => {
@@ -165,19 +255,21 @@ export function ArrayChallenge({
     if (gameState !== "playing") return;
 
     setSelectedIndex(index);
-
-    // Highlight the selected cell
     setHighlightedIndices([index]);
 
-    // Check if this is the correct action for the current step
-    const currentChallenge =
-      challengeSteps[currentStep % challengeSteps.length];
+    const currentChallenge = challengeSteps()[currentStep];
+
+    if (challengeId === "Binary Search") {
+      handleBinarySearchStep(index);
+      return;
+    }
 
     if (
       currentChallenge.type === "find" ||
-      currentChallenge.type === "access"
+      currentChallenge.type === "access" ||
+      currentChallenge.type === "binary-search"
     ) {
-      if (currentChallenge.validate()) {
+      if (currentChallenge.validate(index)) {
         handleSuccess();
       } else {
         handleFailure();
@@ -185,22 +277,49 @@ export function ArrayChallenge({
     }
   };
 
+  const handleBinarySearchStep = (clickedIndex: number) => {
+    const [low, high] = searchRange;
+    const mid = Math.floor((low + high) / 2);
+
+    if (clickedIndex !== mid) {
+      handleFailure();
+      return;
+    }
+
+    if (array[mid] === targetValue) {
+      handleSuccess();
+    } else if (array[mid] < targetValue!) {
+      setSearchRange([mid + 1, high]);
+      setMessage(`Target is higher than ${array[mid]}. Searching right half.`);
+    } else {
+      setSearchRange([low, mid - 1]);
+      setMessage(`Target is lower than ${array[mid]}. Searching left half.`);
+    }
+
+    // Highlight new search range
+    const [newLow, newHigh] = searchRange;
+    const indices = Array.from(
+      { length: newHigh - newLow + 1 },
+      (_, i) => newLow + i
+    );
+    setHighlightedIndices(indices);
+  };
+
   const handleSuccess = () => {
     const pointsEarned =
       difficulty === "Easy" ? 10 : difficulty === "Medium" ? 20 : 30;
-    setScore((prev) => prev + pointsEarned);
 
+    setScore((prev) => prev + pointsEarned);
     setMessage(`Correct! +${pointsEarned} points`);
+
     toast({
       title: "Correct!",
       description: `You earned ${pointsEarned} points.`,
       variant: "default",
     });
 
-    // Move to next step
     const nextStep = currentStep + 1;
-    if (nextStep >= challengeSteps.length) {
-      // Challenge completed
+    if (nextStep >= challengeSteps().length) {
       const timeSpent = Math.floor((Date.now() - startTimeRef.current) / 1000);
       clearInterval(timerRef.current!);
       setGameState("success");
@@ -230,21 +349,12 @@ export function ArrayChallenge({
   const handleSort = () => {
     if (gameState !== "playing") return;
 
-    const currentChallenge =
-      challengeSteps[currentStep % challengeSteps.length];
-    if (currentChallenge.type !== "sort") {
-      handleFailure();
-      return;
-    }
-
-    // Animate sorting
     const sortedArray = [...array].sort((a, b) => a - b);
-
-    // Highlight all cells during sorting
     setHighlightedIndices(Array.from({ length: array.length }, (_, i) => i));
 
     setTimeout(() => {
       setArray(sortedArray);
+      const currentChallenge = challengeSteps()[currentStep];
       if (currentChallenge.validate()) {
         handleSuccess();
       } else {
@@ -256,22 +366,13 @@ export function ArrayChallenge({
   const handleInsert = () => {
     if (gameState !== "playing" || targetValue === null) return;
 
-    const currentChallenge =
-      challengeSteps[currentStep % challengeSteps.length];
-    if (currentChallenge.type !== "insert") {
-      handleFailure();
-      return;
-    }
-
-    // Insert at index 2
     const newArray = [...array];
     newArray.splice(2, 0, targetValue);
-
-    // Highlight the inserted cell
     setHighlightedIndices([2]);
 
     setTimeout(() => {
       setArray(newArray);
+      const currentChallenge = challengeSteps()[currentStep];
       if (currentChallenge.validate()) {
         handleSuccess();
       } else {
@@ -283,14 +384,6 @@ export function ArrayChallenge({
   const handleDelete = () => {
     if (gameState !== "playing") return;
 
-    const currentChallenge =
-      challengeSteps[currentStep % challengeSteps.length];
-    if (currentChallenge.type !== "delete") {
-      handleFailure();
-      return;
-    }
-
-    // Highlight the cell to be deleted
     setHighlightedIndices([4]);
 
     setTimeout(() => {
@@ -299,6 +392,23 @@ export function ArrayChallenge({
       setArray(newArray);
       handleSuccess();
     }, 1000);
+  };
+
+  const handleRotate = (direction: "left" | "right") => {
+    if (gameState !== "playing") return;
+
+    const steps = direction === "right" ? 1 : -1;
+    setArray((prev) => rotateArray(prev, steps));
+
+    // Highlight all cells during rotation
+    setHighlightedIndices(Array.from({ length: array.length }, (_, i) => i));
+
+    setTimeout(() => {
+      const currentChallenge = challengeSteps()[currentStep];
+      if (currentChallenge.validate()) {
+        handleSuccess();
+      }
+    }, 500);
   };
 
   const formatTime = (seconds: number) => {
@@ -415,7 +525,10 @@ export function ArrayChallenge({
       <div className="flex justify-between items-center">
         <div className="flex items-center space-x-4">
           <Badge variant="outline" className="text-sm py-1">
-            Step {currentStep + 1}/{challengeSteps.length}
+            {challengeId}
+          </Badge>
+          <Badge variant="outline" className="text-sm py-1">
+            Step {currentStep + 1}/{challengeSteps().length}
           </Badge>
           <Badge variant="outline" className="text-sm py-1">
             Score: {score}
@@ -449,7 +562,7 @@ export function ArrayChallenge({
       {/* Challenge instruction */}
       <Card className="p-4 bg-muted/50">
         <p className="font-medium text-center">
-          {challengeSteps[currentStep % challengeSteps.length].instruction}
+          {challengeSteps()[currentStep].instruction}
         </p>
       </Card>
 
@@ -477,6 +590,12 @@ export function ArrayChallenge({
                     ? "bg-primary/10 text-primary font-bold"
                     : ""
                 }
+                ${
+                  challengeId === "Binary Search" &&
+                  (index < searchRange[0] || index > searchRange[1])
+                    ? "opacity-50"
+                    : ""
+                }
               `}
               onClick={() => handleCellClick(index)}
             >
@@ -498,15 +617,30 @@ export function ArrayChallenge({
 
       {/* Operation buttons */}
       <div className="flex flex-wrap gap-2 justify-center">
-        <Button variant="outline" onClick={handleSort}>
-          Sort
-        </Button>
-        <Button variant="outline" onClick={handleInsert}>
-          Insert at 2
-        </Button>
-        <Button variant="outline" onClick={handleDelete}>
-          Delete at 4
-        </Button>
+        {challengeId === "Array Basics" && (
+          <>
+            <Button variant="outline" onClick={handleSort}>
+              Sort
+            </Button>
+            <Button variant="outline" onClick={handleInsert}>
+              Insert at 2
+            </Button>
+            <Button variant="outline" onClick={handleDelete}>
+              Delete at 4
+            </Button>
+          </>
+        )}
+
+        {challengeId === "Array Rotation" && (
+          <>
+            <Button variant="outline" onClick={() => handleRotate("left")}>
+              Rotate Left
+            </Button>
+            <Button variant="outline" onClick={() => handleRotate("right")}>
+              Rotate Right
+            </Button>
+          </>
+        )}
       </div>
 
       {/* Feedback message */}
@@ -532,11 +666,11 @@ export function ArrayChallenge({
         <div className="flex justify-between text-xs text-muted-foreground">
           <span>Progress</span>
           <span>
-            {Math.round((currentStep / challengeSteps.length) * 100)}%
+            {Math.round((currentStep / challengeSteps().length) * 100)}%
           </span>
         </div>
         <Progress
-          value={(currentStep / challengeSteps.length) * 100}
+          value={(currentStep / challengeSteps().length) * 100}
           className="h-2"
         />
       </div>

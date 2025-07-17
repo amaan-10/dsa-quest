@@ -548,7 +548,7 @@ export default function LevelPlayPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <main className="flex-1 container py-8">
+      <main className="flex-1 px-4 md:px-8 py-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
           <div>
             <h1 className="text-3xl font-bold mb-2">{level.title}</h1>

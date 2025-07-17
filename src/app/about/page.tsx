@@ -100,7 +100,7 @@ export default function AboutPage() {
       <main className="flex-1">
         {/* Hero Section */}
         <section className="py-20 bg-gradient-to-br from-primary/10 via-background to-secondary/10">
-          <div className="container">
+          <div className="px-4 md:px-8">
             <div className="max-w-4xl mx-auto text-center space-y-8">
               <div className="space-y-4">
                 <Badge className="mb-4">About RannNeeti</Badge>
@@ -122,7 +122,7 @@ export default function AboutPage() {
 
         {/* Stats Section */}
         <section className="py-16 bg-muted/30">
-          <div className="container">
+          <div className="px-4 md:px-8">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {stats.map((stat, index) => (
                 <div key={index} className="text-center">
@@ -138,7 +138,7 @@ export default function AboutPage() {
 
         {/* Mission Section */}
         <section className="py-20">
-          <div className="container">
+          <div className="px-4 md:px-8">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-16">
                 <h2 className="text-3xl font-bold mb-4">Our Mission</h2>
@@ -184,7 +184,7 @@ export default function AboutPage() {
 
         {/* Values Section */}
         <section className="py-20 bg-muted/30">
-          <div className="container">
+          <div className="px-4 md:px-8">
             <div className="text-center mb-16">
               <h2 className="text-3xl font-bold mb-4">Our Values</h2>
               <p className="text-xl text-muted-foreground">
@@ -214,7 +214,7 @@ export default function AboutPage() {
 
         {/* Team Section */}
         <section className="py-20">
-          <div className="container">
+          <div className="px-4 md:px-8">
             <div className="text-center mb-16">
               <h2 className="text-3xl font-bold mb-4">Meet Our Team</h2>
               <p className="text-xl text-muted-foreground">
@@ -268,7 +268,7 @@ export default function AboutPage() {
 
         {/* CTA Section */}
         <section className="py-20 bg-primary text-primary-foreground">
-          <div className="container text-center">
+          <div className="px-4 md:px-8 text-center">
             <div className="max-w-3xl mx-auto space-y-8">
               <h2 className="text-3xl font-bold">Join Our Mission</h2>
               <p className="text-xl text-primary-foreground/90">

@@ -669,7 +669,7 @@ export function DPChallenge({
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       {/* Game header */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-wrap gap-2 justify-between items-center">
         <div className="flex items-center space-x-4">
           <Badge variant="outline" className="text-sm py-1">
             Problem {currentStep + 1}/{challengeConfig.problems.length}

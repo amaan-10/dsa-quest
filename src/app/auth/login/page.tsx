@@ -1,7 +1,6 @@
 "use client";
 
 import type React from "react";
-
 import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -18,6 +17,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 import { Mail, Lock, Github, Chrome, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useRouter, useSearchParams } from "next/navigation";
+import Cookies from "js-cookie";
 
 export default function LoginPage() {
   const { toast } = useToast();
@@ -26,20 +27,55 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirectTo") || "/";
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    toast({
-      title: "Login Successful!",
-      description: "Welcome back to RannNeeti!",
-      duration: 1250,
-    });
-    // Simulate login process
-    setTimeout(() => {
+
+    try {
+      const res = await fetch(`/api/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const result = await res.json();
+
+      if (!res.ok) {
+        throw new Error(result.error || "Something went wrong");
+      }
+
+      localStorage.setItem("token", result.token);
+      Cookies.set("authToken", result.token, {
+        path: "/",
+        expires: 7,
+        secure: true,
+        sameSite: "Strict",
+      });
+
+      toast({
+        title: "Login Successful!",
+        description: "Welcome back to RannNeeti!",
+        duration: 1700,
+      });
+
+      setTimeout(() => {
+        router.push(redirectTo);
+      }, 2000);
+    } catch (err: unknown) {
+      toast({
+        description: `Error: Something went wrong. Please try again.`,
+        variant: "destructive",
+      });
+      console.error("Login error:", err);
+    } finally {
       setIsLoading(false);
-      window.location.href = "/";
-    }, 1500);
+    }
   };
 
   const handleSocialLogin = (provider: string) => {

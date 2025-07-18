@@ -18,6 +18,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 import { Mail, Lock, User, Github, Chrome, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useRouter, useSearchParams } from "next/navigation";
+import Cookies from "js-cookie";
 
 export default function RegisterPage() {
   const { toast } = useToast();
@@ -31,6 +33,9 @@ export default function RegisterPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirectTo") || "/auth/login";
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -57,18 +62,52 @@ export default function RegisterPage() {
       return;
     }
 
+    const email = formData.email;
+    const password = formData.password;
+
     setIsLoading(true);
 
     // Simulate registration process
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      const res = await fetch(`/api/auth/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const result = await res.json();
+
+      if (!res.ok) {
+        throw new Error(result.error || "Something went wrong");
+      }
+
+      localStorage.setItem("token", result.token);
+      Cookies.set("authToken", result.token, {
+        path: "/",
+        expires: 7,
+        secure: true,
+        sameSite: "Strict",
+      });
+
       toast({
         title: "Account Created!",
         description: "Welcome to RannNeeti! Your learning journey begins now.",
       });
-      // In a real app, redirect to onboarding or dashboard
-      window.location.href = "/levels";
-    }, 1500);
+
+      setTimeout(() => {
+        router.push(redirectTo);
+      }, 2000);
+    } catch (err: unknown) {
+      toast({
+        description: `Error: Something went wrong. Please try again.`,
+        variant: "destructive",
+      });
+      console.error("Login error:", err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSocialLogin = (provider: string) => {

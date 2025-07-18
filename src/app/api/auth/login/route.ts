@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import { User } from "@/models/User";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+
+const JWT_SECRET = process.env.JWT_SECRET as string;
+
 
 export async function POST(req: Request) {
   try {
@@ -25,8 +29,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "Invalid credentials" }, { status: 401 });
     }
 
-    // ✅ You can set cookie/session/token here
-    return NextResponse.json({ message: "Login successful", user: { email: user.email } });
+    const token = jwt.sign(
+      { userId: user._id, email: user.email },
+      JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    return NextResponse.json({ message: "Login successful", user: { email: user.email }, token }, { status: 200 });
 
   } catch (error) {
     console.error("Login error:", error);

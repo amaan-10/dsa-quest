@@ -1,16 +1,47 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import Logo from "../../public/images/logo.png";
 import { usePathname } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
+import Cookies from "js-cookie";
 
 const Navbar = () => {
   const pathname = usePathname();
 
-  const login = pathname === "/login";
-  const register = pathname === "/register";
+  const login = pathname === "/auth/login";
+  const register = pathname === "/auth/register";
+
+  const { toast } = useToast();
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(true);
+  const token = Cookies.get("authToken");
+
+  // Validate token from cookies
+  useEffect(() => {
+    if (!token) {
+      setIsLoggedIn(false);
+      setCheckingAuth(false);
+      return;
+    } else {
+      setIsLoggedIn(true);
+      setCheckingAuth(false);
+    }
+  }, [token]);
+
+  const handleLogout = () => {
+    Cookies.remove("authToken");
+    setIsLoggedIn(false);
+    toast({
+      description: "You have been logged out.",
+      variant: "destructive",
+      duration: 2000,
+    });
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-copper-200 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
@@ -65,22 +96,38 @@ const Navbar = () => {
         </nav>
 
         <div className="flex items-center gap-4">
-          {!login && (
-            <Link href="/login">
-              <Button
-                variant="outline"
-                className="border-copper-300 text-copper-700 hover:bg-copper-50 hover:border-copper-500 hover:text-primary transition-all duration-300 bg-transparent"
-              >
-                Login
-              </Button>
-            </Link>
-          )}
-          {!register && (
-            <Link href="/register">
-              <Button className="bg-gradient-to-r from-copper-500 to-copper-700 hover:from-copper-600 hover:to-copper-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:animate-glow">
-                Register
-              </Button>
-            </Link>
+          {token ? (
+            <>
+              {isLoggedIn && (
+                <Button
+                  variant="destructive"
+                  onClick={handleLogout}
+                  className="bg-gradient-to-r from-copper-500 to-copper-700 hover:from-copper-600 hover:to-copper-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:animate-glow"
+                >
+                  Logout
+                </Button>
+              )}
+            </>
+          ) : (
+            <>
+              {!login && (
+                <Link href="/auth/login">
+                  <Button
+                    variant="outline"
+                    className="border-copper-300 text-copper-700 hover:bg-copper-50 hover:border-copper-500 hover:text-primary transition-all duration-300 bg-transparent"
+                  >
+                    Login
+                  </Button>
+                </Link>
+              )}
+              {!register && (
+                <Link href="/auth/register">
+                  <Button className="bg-gradient-to-r from-copper-500 to-copper-700 hover:from-copper-600 hover:to-copper-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:animate-glow">
+                    Register
+                  </Button>
+                </Link>
+              )}
+            </>
           )}
         </div>
       </div>

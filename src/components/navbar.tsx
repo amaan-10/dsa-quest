@@ -8,6 +8,7 @@ import Logo from "../../public/images/logo.png";
 import { usePathname } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import Cookies from "js-cookie";
+import { signOut } from "next-auth/react";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -35,6 +36,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     Cookies.remove("authToken");
+    signOut();
     setIsLoggedIn(false);
     toast({
       description: "You have been logged out.",

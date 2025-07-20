@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,10 +16,11 @@ import {
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
-import { Mail, Lock, User, Github, Chrome, Eye, EyeOff } from "lucide-react";
+import { Mail, Lock, User, Chrome, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter, useSearchParams } from "next/navigation";
 import Cookies from "js-cookie";
+import { signIn, useSession } from "next-auth/react";
 
 export default function RegisterPage() {
   const { toast } = useToast();
@@ -36,6 +37,21 @@ export default function RegisterPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") || "/auth/login";
+  const { data: session } = useSession();
+  console.log("Session:", session);
+
+  useEffect(() => {
+    if (session?.user?.token) {
+      localStorage.setItem("token", session.user.token);
+      Cookies.set("authToken", session.user.token, {
+        path: "/",
+        expires: 7,
+        secure: true,
+        sameSite: "Strict",
+      });
+      router.push("/");
+    }
+  }, [session]);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -108,13 +124,6 @@ export default function RegisterPage() {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleSocialLogin = (provider: string) => {
-    toast({
-      title: `${provider} Registration`,
-      description: `Redirecting to ${provider} authentication...`,
-    });
   };
 
   return (
@@ -265,22 +274,16 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid">
               <Button
                 variant="outline"
-                onClick={() => handleSocialLogin("Google")}
+                onClick={() => {
+                  signIn("google");
+                }}
                 className="w-full"
               >
                 <Chrome className="mr-2 h-4 w-4" />
                 Google
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => handleSocialLogin("GitHub")}
-                className="w-full"
-              >
-                <Github className="mr-2 h-4 w-4" />
-                GitHub
               </Button>
             </div>
 

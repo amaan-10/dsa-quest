@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,10 +15,11 @@ import {
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
-import { Mail, Lock, Github, Chrome, Eye, EyeOff } from "lucide-react";
+import { Mail, Lock, Chrome, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter, useSearchParams } from "next/navigation";
 import Cookies from "js-cookie";
+import { signIn, useSession } from "next-auth/react";
 
 export default function LoginPage() {
   const { toast } = useToast();
@@ -30,6 +31,21 @@ export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") || "/";
+  const { data: session } = useSession();
+  console.log("Session:", session);
+
+  useEffect(() => {
+    if (session?.user?.token) {
+      localStorage.setItem("token", session.user.token);
+      Cookies.set("authToken", session.user.token, {
+        path: "/",
+        expires: 7,
+        secure: true,
+        sameSite: "Strict",
+      });
+      router.push(redirectTo);
+    }
+  }, [session]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -78,12 +94,12 @@ export default function LoginPage() {
     }
   };
 
-  const handleSocialLogin = (provider: string) => {
-    toast({
-      title: `${provider} Login`,
-      description: `Redirecting to ${provider} authentication...`,
-    });
-  };
+  // const handleSocialLogin = (provider: string) => {
+  //   toast({
+  //     title: `${provider} Login`,
+  //     description: `Redirecting to ${provider} authentication...`,
+  //   });
+  // };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -180,22 +196,16 @@ export default function LoginPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid">
               <Button
                 variant="outline"
-                onClick={() => handleSocialLogin("Google")}
+                onClick={() => {
+                  signIn("google");
+                }}
                 className="w-full"
               >
                 <Chrome className="mr-2 h-4 w-4" />
                 Google
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => handleSocialLogin("GitHub")}
-                className="w-full"
-              >
-                <Github className="mr-2 h-4 w-4" />
-                GitHub
               </Button>
             </div>
 

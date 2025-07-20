@@ -3,6 +3,7 @@ import "./globals.css";
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
 import { Toaster } from "@/components/ui/toaster";
+import SessionWrapper from "@/components/SessionWrapper";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -29,7 +30,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Navbar />
-        {children}
+        <SessionWrapper>{children}</SessionWrapper>
         <Toaster />
         <Footer />
       </body>

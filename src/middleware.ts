@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const allowedRoutes = ['/', '/demo', '/auth/register', '/auth/login', '/leaderboard', '/about', '/levels'];
+const publicRoutes = ['/', '/demo', '/auth/register', '/auth/login', '/leaderboard', '/about', '/levels'];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -16,7 +16,13 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (allowedRoutes.includes(pathname)) {
+  const authToken = request.cookies.get('authToken')?.value;
+
+  if (publicRoutes.includes(pathname)) {
+    return NextResponse.next();
+  }
+
+  if (authToken) {
     return NextResponse.next();
   }
 

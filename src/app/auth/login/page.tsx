@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import type React from "react";
@@ -83,7 +84,7 @@ export default function LoginPage() {
       setTimeout(() => {
         router.push(redirectTo);
       }, 2000);
-    } catch (err: unknown) {
+    } catch (err: any) {
       toast({
         description: `Error: Something went wrong. Please try again.`,
         variant: "destructive",

@@ -506,7 +506,7 @@ const LEVEL_DATA = {
     averageTime: "4 hours",
     rating: 5.0,
     players: 1234,
-    imagePath: "/images/algorithm.png",
+    imagePath: "/public/images/algorithm.png",
     icon: Sword,
     color: "from-red-500 to-pink-600",
     objectives: [

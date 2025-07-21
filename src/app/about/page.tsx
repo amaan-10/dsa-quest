@@ -1,65 +1,57 @@
-import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import {
-  Users,
-  Target,
-  Lightbulb,
-  Heart,
-  Github,
-  Linkedin,
-  Twitter,
-} from "lucide-react";
+import { Users, Target, Lightbulb, Heart } from "lucide-react";
+import Logo from "../../../public/images/logo-2.jpeg";
 
 export default function AboutPage() {
-  const teamMembers = [
-    {
-      name: "Alex Chen",
-      role: "Founder & CEO",
-      bio: "Former Google engineer with a passion for making computer science education accessible to everyone.",
-      avatar: "/placeholder.svg?height=150&width=150",
-      social: {
-        github: "#",
-        linkedin: "#",
-        twitter: "#",
-      },
-    },
-    {
-      name: "Sarah Johnson",
-      role: "Head of Education",
-      bio: "PhD in Computer Science Education, dedicated to creating engaging learning experiences.",
-      avatar: "/placeholder.svg?height=150&width=150",
-      social: {
-        github: "#",
-        linkedin: "#",
-        twitter: "#",
-      },
-    },
-    {
-      name: "Michael Rodriguez",
-      role: "Lead Developer",
-      bio: "Full-stack developer specializing in interactive web applications and game development.",
-      avatar: "/placeholder.svg?height=150&width=150",
-      social: {
-        github: "#",
-        linkedin: "#",
-        twitter: "#",
-      },
-    },
-    {
-      name: "Emily Zhang",
-      role: "UX Designer",
-      bio: "Design expert focused on creating intuitive and beautiful user experiences for learning.",
-      avatar: "/placeholder.svg?height=150&width=150",
-      social: {
-        github: "#",
-        linkedin: "#",
-        twitter: "#",
-      },
-    },
-  ];
+  // const teamMembers = [
+  //   {
+  //     name: "Alex Chen",
+  //     role: "Founder & CEO",
+  //     bio: "Former Google engineer with a passion for making computer science education accessible to everyone.",
+  //     avatar: "/placeholder.svg?height=150&width=150",
+  //     social: {
+  //       github: "#",
+  //       linkedin: "#",
+  //       twitter: "#",
+  //     },
+  //   },
+  //   {
+  //     name: "Sarah Johnson",
+  //     role: "Head of Education",
+  //     bio: "PhD in Computer Science Education, dedicated to creating engaging learning experiences.",
+  //     avatar: "/placeholder.svg?height=150&width=150",
+  //     social: {
+  //       github: "#",
+  //       linkedin: "#",
+  //       twitter: "#",
+  //     },
+  //   },
+  //   {
+  //     name: "Michael Rodriguez",
+  //     role: "Lead Developer",
+  //     bio: "Full-stack developer specializing in interactive web applications and game development.",
+  //     avatar: "/placeholder.svg?height=150&width=150",
+  //     social: {
+  //       github: "#",
+  //       linkedin: "#",
+  //       twitter: "#",
+  //     },
+  //   },
+  //   {
+  //     name: "Emily Zhang",
+  //     role: "UX Designer",
+  //     bio: "Design expert focused on creating intuitive and beautiful user experiences for learning.",
+  //     avatar: "/placeholder.svg?height=150&width=150",
+  //     social: {
+  //       github: "#",
+  //       linkedin: "#",
+  //       twitter: "#",
+  //     },
+  //   },
+  // ];
 
   const values = [
     {
@@ -170,7 +162,7 @@ export default function AboutPage() {
                 </div>
                 <div className="relative">
                   <Image
-                    src="/placeholder.svg?height=400&width=600"
+                    src={Logo}
                     alt="Learning illustration"
                     width={600}
                     height={400}
@@ -213,7 +205,7 @@ export default function AboutPage() {
         </section>
 
         {/* Team Section */}
-        <section className="py-20">
+        {/* <section className="py-20">
           <div className="px-4 md:px-8">
             <div className="text-center mb-16">
               <h2 className="text-3xl font-bold mb-4">Meet Our Team</h2>
@@ -264,7 +256,7 @@ export default function AboutPage() {
               ))}
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* CTA Section */}
         <section className="py-20 bg-primary text-primary-foreground">

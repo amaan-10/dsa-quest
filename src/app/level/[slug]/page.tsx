@@ -583,7 +583,7 @@ export default function LevelDetailPage() {
             alt={level.title}
             width={1024}
             height={1024}
-            className="h-40 w-40 absolute top-[25%] left-[4%] transform  object-cover animate-float"
+            className="h-40 w-40 absolute top-[20%] left-[4%] transform  object-cover animate-float"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-white via-white/10 to-transparent"></div>
           <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
